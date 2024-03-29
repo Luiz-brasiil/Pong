@@ -1,0 +1,125 @@
+<html>
+<head>
+<style>
+body{background-color:orange}
+p{
+font-family: Arial;
+font-size: 65 ;
+color: blue;
+}
+canvas{
+border: 3px solid black;
+color: # ff0000;
+}
+img.tipo1{
+position:absolute;
+top:150 ;
+bottom: ;
+left:330;
+right: 530 ;
+}
+img.tipo2{
+position:absolute;
+top:150 ;
+bottom: ;
+left:1200;
+right: 1400;
+}
+</style>
+</head>
+<body onkeydown='moverbarra(event.which)'>
+<center> <p id='ponto'/> </center>
+<center> <canvas id="meu_canvas" width="400" height="450" > 
+
+
+</canvas> </center>
+<img class="tipo1" src="charizard.jpg" alt="some text" width=400 height=450> 
+<img class="tipo2" src="charizard.jpg" alt="some text" width=400 height=450> 
+<script>
+var canvas= document.getElementById("meu_canvas")
+									.getContext('2d');
+var x=60;//comprimento do inicio da bola
+var y=130;//altura do inicio da bola
+var barrax=150;//a barra do jogo
+var raio=16;//tamanho da pelota
+var deltax=2;//o quanto que ela anda na horizontal
+var deltay=2;//o quanto que ela anda na vertical
+var cont=0;
+function moverbarra(tecla)//mover a barra pra esquerda e pra direita
+{
+if(tecla == 37)//se clicar na <- a barra vai pra esquerda
+{
+barrax=barrax -35;
+}else if(tecla == 39)//se clicar na -> a barra vai pra direita
+{
+barrax=barrax +35;
+}
+if(barrax>399)
+{
+barrax=-99;
+}
+if(barrax+100<0)
+{
+barrax=399
+}
+}
+function anda()
+{
+document.getElementById('ponto').innerHTML = cont;
+x=x+deltax;//variação de movimento na horizontal
+y=y+deltay;//variação de movimento na vertical									
+//pra iniciar o desenho
+canvas.fillStyle='white';//cor da tela
+canvas.fillRect(0,0,400,450);//posição da tela
+canvas.fillStyle= 'blue';//cor da bola
+canvas.beginPath();
+canvas.arc(x,y,raio,0,2*Math.PI);
+canvas.fill();
+canvas.fillStyle='orange';//cor da barra
+canvas.fillRect(barrax,430,100,20);//posição da barra na horizontal,posição da barra na vertical,comprimento da barra e altura da barra,respectivamente
+
+if(x-raio <= 0)//se a bola bater na parede esquerda
+{deltax= -1*deltax;
+}
+if(y-raio <= 0)//se a bola bater na parede de cima
+{deltay=-1*deltay;
+}
+if(x+raio >= 400)//se a bola bater na parede direita
+{deltax=-1*deltax;
+}
+if(y+raio>429)//se a bola bater na parede baixo,condições:
+{
+
+ if(x>= barrax && x< barrax+100)//se a bola bater na barra
+{
+deltay= -1*deltay;
+    cont = cont+1;
+    if(x <= barrax + 20)
+    {
+    deltax = -3;
+    }
+
+    if(x >= barrax + 80)
+    {
+    deltax= 3;
+    }
+	
+}
+}
+if(y+raio>450)
+{
+alert("Game over!!!");
+}else{
+setTimeout('anda();',8);//senão, repete a função
+}
+if(cont==7)
+{
+alert("Parabens!!Ganhou")
+}
+}
+anda();
+</script>
+
+
+</body>
+</html>
